@@ -1,6 +1,6 @@
 # ollama console syntax highlighting :rocket:
 
-## Usage
+## Usage :sunny:
 `git clone https://github.com/d3nd3/ollama-syntaxhighlight`  
 `cd ollama-syntaxhighlight`  
 `go build chunk-reader.go`  
@@ -16,6 +16,7 @@ llama() {
 ```bash
 sudo apt install batcat
 sudo apt install bat
+sudo apt install colorized-logs
 
 batcat -L
 llama python
@@ -26,7 +27,7 @@ llama javascript
 Defaults to using language: **fstab** if no language specified , because its very generic.
 
 
-## Creation Journey
+## Creation Journey :sunny:
 So at first, I expected it to just work by using stdbuf -i0 -o0 and simple pipes. However it wasn't so simple because:
 * There were ansi terminal sequences that had to be stripped
 * The syntax highlighter program does not write out instantly what it reads, it waits for newlines etc. and ollama first line doesn't use a newline.
