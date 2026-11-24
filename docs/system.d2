@@ -1,0 +1,47 @@
+# ollama-syntaxhighlight — paint colour on an ollama session that is not a terminal
+# Strokes only (no fills) so the light and dark themes both stay readable.
+direction: right
+
+classes: {
+  entry: {style: {stroke: "#4f9cf9"; stroke-width: 2}}
+  core: {style: {stroke: "#9a7cf9"}}
+  state: {style: {stroke: "#e0a44a"}}
+  ext: {style: {stroke: "#6ac48a"; stroke-dash: 4}}
+  store: {style: {stroke: "#e0a44a"; stroke-width: 2}}
+}
+
+entry: Entry points {
+  direction: down
+  alias: "llama() shell alias · language as arg 1, defaults to fstab, execs chunk-reader" {class: entry}
+  ollama_pipe: "ollama run llama3 · the only producer, tokens plus an inter-turn prompt" {class: entry}
+  keys: "your keyboard · raw bytes on the same stdin, 1 or 4 byte chunks" {class: entry}
+}
+
+core: Core {
+  direction: down
+  loop: "main loop · 1 KiB stdin reads, no goroutines, exits on EOF without flushing" {class: core}
+  mode: "mode machine · LLM or user chosen by chunk size, no protocol marker" {class: core}
+  acc: "accumulator · keeps every non-ESC chunk while the answer streams" {class: core}
+  flush: "flush branch · a chunk over 20 bytes is the prompt, so the answer ended" {class: core}
+  strip: "StripANSI · drops ESC plus everything up to the next letter" {class: core}
+  render: "bat call · pipetty+batcat -ppP -lOL_LANG, whole answer, printed at once" {class: core}
+  old: "post-chunk-reader.go · abandoned newline-stripping pass-through, not built by the README" {class: core}
+}
+
+state: State {
+  direction: down
+  buf: "llmMsg + llmMsg_size · RAM only, reset at every flush" {class: store}
+  bins: "built chunk-reader binaries · go build output, gitignored" {class: store}
+  env: "OL_LANG · the only configuration, read once per finished answer" {class: store}
+}
+
+external: External {
+  direction: down
+  ollama: "ollama server · model text, ANSI cursor codes, the >>> help prompt" {class: ext}
+  bat: "batcat and its syntax set · needs whole text, no incremental highlight" {class: ext}
+  pty: "pipetty from colorized-logs · fake tty so bat keeps colour into a pipe" {class: ext}
+}
+
+entry -> core
+core -> state
+core -> external

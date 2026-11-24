@@ -1,5 +1,7 @@
 # ollama console syntax highlighting :rocket:
 
+Prefer pictures? Start with **[HUMANS.md](HUMANS.md)**.
+
 ## Usage :sunny:
 `git clone https://github.com/d3nd3/ollama-syntaxhighlight`  
 `cd ollama-syntaxhighlight`  
